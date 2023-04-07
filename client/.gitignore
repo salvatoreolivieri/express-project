@@ -1,0 +1,13 @@
+node_modules
+*.log
+.nuxt
+nuxt.d.ts
+.output
+/components.d.ts
+.env
+/storybook-static
+/auto-imports.d.ts
+/graphql.config.json
+.DS_Store
+.idea
+.yarn/cache
