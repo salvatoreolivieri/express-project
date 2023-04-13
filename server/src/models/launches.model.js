@@ -15,10 +15,12 @@ const launch = {
 
 launches.set(launch.flightNumber, launch)
 
+// GET
 const getAllLaunches = () => {
   return Array.from(launches.values())
 }
 
+// POST
 const addNewLaunch = (launch) => {
   latestFlightNumber++
 
@@ -33,7 +35,22 @@ const addNewLaunch = (launch) => {
   )
 }
 
+// DELETE
+const existLaunchWithId = (launchId) => {
+  return launches.has(launchId)
+}
+
+const abortLaunchById = (launchId) => {
+  const aborted = launches.get(launchId)
+  aborted.upcoming = false
+  aborted.success = false
+
+  return aborted
+}
+
 module.exports = {
   getAllLaunches,
   addNewLaunch,
+  abortLaunchById,
+  existLaunchWithId,
 }
