@@ -36,8 +36,8 @@ app.use(
 app.use(morgan("combined"))
 
 app.use(express.json())
-app.use(planetsRouter)
-app.use(launchesRouter)
+app.use("/planets", planetsRouter)
+app.use("/launches", launchesRouter)
 
 app.use(express.static(path.join(__dirname, "..", "public")))
 app.get("/*", (request, response) => {
