@@ -23,6 +23,7 @@ startServer()
 
 // Routes
 const planetsRouter = require("./routes/planets/planets.router")
+const launchesRouter = require("./routes/launches/launches.router")
 
 //Model
 
@@ -36,8 +37,9 @@ app.use(morgan("combined"))
 
 app.use(express.json())
 app.use(planetsRouter)
+app.use(launchesRouter)
 
 app.use(express.static(path.join(__dirname, "..", "public")))
-app.get("/", (request, response) => {
+app.get("/*", (request, response) => {
   response.sendFile(path.join(__dirname, "..", "public", "index.html"))
 })
