@@ -25,8 +25,6 @@ startServer()
 const planetsRouter = require("./routes/planets/planets.router")
 const launchesRouter = require("./routes/launches/launches.router")
 
-//Model
-
 // Use
 app.use(
   cors({
