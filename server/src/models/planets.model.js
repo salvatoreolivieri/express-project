@@ -4,7 +4,7 @@ const { parse } = require("csv-parse")
 
 const habitablePlanets = []
 
-function isHabitablePlanet(planet) {
+const isHabitablePlanet = (planet) => {
   return (
     planet["koi_disposition"] === "CONFIRMED" &&
     planet["koi_insol"] > 0.36 &&
