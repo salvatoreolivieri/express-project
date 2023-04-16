@@ -3,15 +3,29 @@ const express = require("express")
 const cors = require("cors")
 const morgan = require("morgan")
 const path = require("path")
+const mongoose = require("mongoose")
 
 const app = express()
-const PORT = process.env.PORT || 8000
+const PORT = process.env.PORT || 8080
+const MONGO_URL =
+  "mongodb+srv://nasa-api:mBk7P7xY1hGsM8gQ@nasacluster.1kxyjg0.mongodb.net/?retryWrites=true&w=majority"
 
 // Model
 const { loadPlanet } = require("./models/planets.model")
 
+mongoose.connection.once("open", () => {
+  console.log("MongoDB connection ready!")
+})
+
+mongoose.connection.on("error", (error) => {
+  console.error(error)
+})
+
 // Start Server
 async function startServer() {
+  // MongoDB connection
+  await mongoose.connect(MONGO_URL)
+
   await loadPlanet()
 
   app.listen(PORT, () => {
