@@ -1,17 +1,17 @@
 const {
   getAllLaunches,
-  addNewLaunch,
+  scheduleNewLaunch,
   abortLaunchById,
   existLaunchWithId,
 } = require("../../models/launches.model")
 
 // GET
-const httpGetAllLaunches = (request, response) => {
-  return response.status(200).json(getAllLaunches())
+const httpGetAllLaunches = async (request, response) => {
+  return response.status(200).json(await getAllLaunches())
 }
 
 // POST
-const httpAddNewLaunch = (request, response) => {
+const httpAddNewLaunch = async (request, response) => {
   const launch = request.body
 
   // Validation:
@@ -34,19 +34,29 @@ const httpAddNewLaunch = (request, response) => {
     })
   }
 
-  addNewLaunch(launch)
+  await scheduleNewLaunch(launch)
   return response.status(201).json(launch)
 }
 
 // DELETE
-const httpAbortLaunch = (request, response) => {
+const httpAbortLaunch = async (request, response) => {
   const launchId = Number(request.params.id)
-  const aborted = abortLaunchById(launchId)
 
-  return existLaunchWithId(launchId)
-    ? response.status(200).json(aborted)
+  const existsLaunch = await existLaunchWithId(launchId)
+  if (!existsLaunch) {
+    return response.status(404).json({
+      error: "Launch not found",
+    })
+  }
+
+  const aborted = await abortLaunchById(launchId)
+
+  return aborted
+    ? response.status(200).json({
+        aborted: true,
+      })
     : response.status(404).json({
-        error: "Launch not found",
+        error: "Launch not aborted",
       })
 }
 
