@@ -5,6 +5,7 @@ const morgan = require("morgan")
 const path = require("path")
 const mongoose = require("mongoose")
 
+const api = require("./routes/api")
 const app = express()
 const PORT = process.env.PORT || 8090
 const MONGO_URL =
@@ -20,6 +21,7 @@ mongoose.connection.on("error", (error) => {
 
 // Model
 const { loadPlanet } = require("./models/planets.model")
+const { loadLaunchData } = require("./models/launches.model")
 
 // Start Server
 const startServer = async () => {
@@ -28,16 +30,14 @@ const startServer = async () => {
 
   await loadPlanet()
 
+  await loadLaunchData()
+
   app.listen(PORT, () => {
     console.log(`listening on port ${PORT}`)
   })
 }
 
 startServer()
-
-// Routes
-const planetsRouter = require("./routes/planets/planets.router")
-const launchesRouter = require("./routes/launches/launches.router")
 
 // Use
 app.use(
@@ -48,8 +48,7 @@ app.use(
 app.use(morgan("combined"))
 
 app.use(express.json())
-app.use("/planets", planetsRouter)
-app.use("/launches", launchesRouter)
+app.use("/v1", api)
 
 app.use(express.static(path.join(__dirname, "..", "public")))
 app.get("/*", (request, response) => {
