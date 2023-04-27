@@ -5,11 +5,12 @@ const morgan = require("morgan")
 const path = require("path")
 const mongoose = require("mongoose")
 
+require("dotenv").config()
+
 const api = require("./routes/api")
 const app = express()
 const PORT = process.env.PORT || 8090
-const MONGO_URL =
-  "mongodb+srv://nasa-api:mBk7P7xY1hGsM8gQ@nasacluster.1kxyjg0.mongodb.net/?retryWrites=true&w=majority"
+const MONGO_URL = process.env.MONGO_URL
 
 mongoose.connection.once("open", () => {
   console.log("MongoDB connection ready!")
