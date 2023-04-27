@@ -27,9 +27,7 @@ const { loadLaunchData } = require("./models/launches.model")
 const startServer = async () => {
   // MongoDB connection
   await mongoose.connect(MONGO_URL)
-
   await loadPlanet()
-
   await loadLaunchData()
 
   app.listen(PORT, () => {
